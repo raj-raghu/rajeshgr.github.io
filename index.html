@@ -1,629 +1,776 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Rajesh G R — Data Engineer</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #F9F9F7;
-    --surface: #FFFFFF;
-    --border: #E5E5E0;
-    --text: #111110;
-    --muted: #6B6B65;
-    --subtle: #A8A8A0;
-    --accent: #1A56DB;
-    --accent-light: #EEF2FF;
-    --radius: 10px;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    font-size: 15px;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* NAV */
-  nav {
-    position: sticky; top: 0; z-index: 100;
-    background: rgba(249,249,247,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    display: flex; align-items: center; justify-content: space-between;
-    height: 60px;
-  }
-  .nav-logo {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700; font-size: 1rem;
-    color: var(--text); text-decoration: none;
-    letter-spacing: -0.01em;
-  }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    font-size: 0.85rem; color: var(--muted);
-    text-decoration: none; font-weight: 500;
-    transition: color 0.15s;
-  }
-  .nav-links a:hover { color: var(--text); }
-  .nav-cta {
-    font-size: 0.82rem; font-weight: 600;
-    background: var(--text); color: #fff;
-    padding: 0.45rem 1.1rem; border-radius: 6px;
-    text-decoration: none; transition: opacity 0.15s;
-  }
-  .nav-cta:hover { opacity: 0.8; }
-
-  /* LAYOUT */
-  .container { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
-
-  /* HERO */
-  .hero {
-    padding: 6rem 2rem 5rem;
-    max-width: 900px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: start;
-  }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
-    color: var(--accent); background: var(--accent-light);
-    padding: 4px 12px; border-radius: 100px;
-    margin-bottom: 1.4rem;
-  }
-  .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-  .hero-name {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(2.4rem, 5vw, 3.4rem);
-    font-weight: 700; line-height: 1.08;
-    letter-spacing: -0.03em; color: var(--text);
-    margin-bottom: 1rem;
-  }
-  .hero-title {
-    font-size: 1.1rem; color: var(--muted); font-weight: 400;
-    margin-bottom: 1.5rem;
-  }
-  .hero-bio {
-    font-size: 0.95rem; color: var(--muted); line-height: 1.75;
-    max-width: 520px; margin-bottom: 2rem;
-  }
-  .hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-  .btn-primary {
-    font-size: 0.85rem; font-weight: 600;
-    background: var(--text); color: #fff;
-    padding: 0.65rem 1.4rem; border-radius: 7px;
-    text-decoration: none; transition: opacity 0.15s;
-    display: inline-flex; align-items: center; gap: 6px;
-  }
-  .btn-primary:hover { opacity: 0.8; }
-  .btn-outline {
-    font-size: 0.85rem; font-weight: 500;
-    background: transparent; color: var(--text);
-    padding: 0.65rem 1.4rem; border-radius: 7px;
-    border: 1.5px solid var(--border);
-    text-decoration: none; transition: border-color 0.15s, background 0.15s;
-    display: inline-flex; align-items: center; gap: 6px;
-  }
-  .btn-outline:hover { border-color: var(--text); background: var(--surface); }
-
-  .hero-avatar {
-    width: 120px; height: 120px; border-radius: 50%;
-    background: var(--accent-light);
-    border: 3px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 2.4rem; font-weight: 700; color: var(--accent);
-    flex-shrink: 0;
-    margin-top: 1rem;
-  }
-
-  /* STATS BAR */
-  .stats-bar {
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-    display: grid; grid-template-columns: repeat(4, 1fr);
-  }
-  .stat-item {
-    padding: 1.6rem 2rem;
-    border-right: 1px solid var(--border);
-    text-align: center;
-  }
-  .stat-item:last-child { border-right: none; }
-  .stat-num {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 2rem; font-weight: 700;
-    color: var(--text); line-height: 1;
-  }
-  .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
-
-  /* SECTIONS */
-  section { padding: 5rem 0; border-bottom: 1px solid var(--border); }
-  section:last-of-type { border-bottom: none; }
-
-  .section-eyebrow {
-    font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 0.6rem;
-  }
-  .section-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.9rem; font-weight: 700; letter-spacing: -0.02em;
-    color: var(--text); margin-bottom: 3rem;
-  }
-
-  /* ABOUT */
-  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
-  .about-text p { font-size: 0.95rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
-  .about-text p:last-child { margin-bottom: 0; }
-  .about-details { display: flex; flex-direction: column; gap: 0.8rem; }
-  .detail-row { display: flex; align-items: center; gap: 0.75rem; font-size: 0.88rem; }
-  .detail-icon { width: 34px; height: 34px; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.9rem; }
-  .detail-label { color: var(--muted); font-size: 0.78rem; }
-  .detail-value { color: var(--text); font-weight: 500; font-size: 0.88rem; }
-
-  /* SKILLS */
-  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-  .skill-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 1.3rem 1.4rem;
-    transition: border-color 0.15s;
-  }
-  .skill-card:hover { border-color: #C0C0BA; }
-  .skill-card-header {
-    display: flex; align-items: center; gap: 0.6rem;
-    margin-bottom: 0.9rem;
-  }
-  .skill-icon {
-    width: 32px; height: 32px; border-radius: 7px;
-    background: var(--accent-light);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.85rem; color: var(--accent);
-  }
-  .skill-category { font-size: 0.82rem; font-weight: 600; color: var(--text); }
-  .skill-tags { display: flex; flex-wrap: wrap; gap: 5px; }
-  .skill-tag {
-    font-size: 0.74rem; font-weight: 500;
-    background: var(--bg); border: 1px solid var(--border);
-    color: var(--muted); border-radius: 5px; padding: 3px 9px;
-  }
-
-  /* EXPERIENCE */
-  .exp-timeline { display: flex; flex-direction: column; gap: 0; }
-  .exp-item {
-    display: grid; grid-template-columns: 160px 1fr;
-    gap: 2rem; padding: 2rem 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .exp-item:last-child { border-bottom: none; }
-  .exp-meta { padding-top: 2px; }
-  .exp-dates { font-size: 0.78rem; color: var(--subtle); font-weight: 500; margin-bottom: 0.3rem; }
-  .exp-company { font-size: 0.88rem; font-weight: 600; color: var(--text); }
-  .exp-location { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
-  .exp-content { }
-  .exp-role { font-size: 1.05rem; font-weight: 600; color: var(--text); margin-bottom: 0.8rem; }
-  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-  .exp-bullets li {
-    font-size: 0.88rem; color: var(--muted); line-height: 1.65;
-    padding-left: 1.1rem; position: relative;
-  }
-  .exp-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--subtle); font-size: 0.75rem; top: 3px; }
-  .exp-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 1rem; }
-  .exp-tag {
-    font-size: 0.72rem; font-weight: 500;
-    background: var(--accent-light); color: var(--accent);
-    border-radius: 5px; padding: 2px 9px;
-  }
-
-  /* PROJECTS */
-  .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
-  .project-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 1.5rem;
-    display: flex; flex-direction: column; gap: 0.9rem;
-    transition: border-color 0.15s, transform 0.15s;
-  }
-  .project-card:hover { border-color: #C0C0BA; transform: translateY(-2px); }
-  .project-num {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.72rem; font-weight: 700; color: var(--subtle);
-    letter-spacing: 0.06em;
-  }
-  .project-name { font-size: 0.95rem; font-weight: 600; color: var(--text); line-height: 1.3; }
-  .project-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.65; flex: 1; }
-  .project-tags { display: flex; flex-wrap: wrap; gap: 5px; }
-  .project-tag {
-    font-size: 0.7rem; background: var(--bg);
-    border: 1px solid var(--border); color: var(--muted);
-    border-radius: 5px; padding: 2px 8px;
-  }
-
-  /* CONTACT */
-  .contact-card {
-    background: var(--text); border-radius: 14px;
-    padding: 3rem 3.5rem;
-    display: flex; justify-content: space-between; align-items: center; gap: 2rem; flex-wrap: wrap;
-  }
-  .contact-heading {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.7rem; font-weight: 700; color: #fff; letter-spacing: -0.02em;
-    margin-bottom: 0.5rem;
-  }
-  .contact-sub { font-size: 0.9rem; color: #8B9CB6; }
-  .contact-links { display: flex; flex-direction: column; gap: 0.6rem; }
-  .contact-link {
-    font-size: 0.85rem; color: #fff; text-decoration: none;
-    display: flex; align-items: center; gap: 0.5rem;
-    opacity: 0.75; transition: opacity 0.15s;
-  }
-  .contact-link:hover { opacity: 1; }
-  .contact-link-icon { font-size: 1rem; }
-
-  /* FOOTER */
-  footer {
-    text-align: center; padding: 2rem;
-    font-size: 0.78rem; color: var(--subtle);
-    border-top: 1px solid var(--border);
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 720px) {
-    .hero { grid-template-columns: 1fr; gap: 2rem; padding: 4rem 1.5rem 3rem; }
-    .hero-avatar { display: none; }
-    .stats-bar { grid-template-columns: repeat(2, 1fr); }
-    .stat-item:nth-child(2) { border-right: none; }
-    .about-grid { grid-template-columns: 1fr; }
-    .skills-grid { grid-template-columns: 1fr 1fr; }
-    .projects-grid { grid-template-columns: 1fr; }
-    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
-    .contact-card { padding: 2rem; flex-direction: column; }
-    nav { padding: 0 1rem; }
-    .nav-links { display: none; }
-    .container { padding: 0 1.5rem; }
-  }
-
-  @media (max-width: 480px) {
-    .skills-grid { grid-template-columns: 1fr; }
-  }
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap');
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .pf-root {
+        font-family: 'Inter', sans-serif;
+        background: #0D1117;
+        color: #E6EDF3;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+    
+    .pf-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 2rem;
+        border-bottom: 1px solid #21262D;
+        position: sticky;
+        top: 0;
+        background: rgba(13, 17, 23, 0.95);
+        z-index: 100;
+        backdrop-filter: blur(8px);
+    }
+    
+    .pf-logo {
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #00D4FF;
+        letter-spacing: 0.04em;
+    }
+    
+    .pf-nav-links {
+        display: flex;
+        gap: 1.5rem;
+    }
+    
+    .pf-nav-links a {
+        font-size: 0.82rem;
+        color: #8B9CB6;
+        text-decoration: none;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+    
+    .pf-nav-links a:hover {
+        color: #00D4FF;
+    }
+    
+    .pf-hero {
+        padding: 4rem 2rem 3rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .pf-eyebrow {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.78rem;
+        color: #00D4FF;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+    }
+    
+    .pf-eyebrow::before {
+        content: '';
+        display: inline-block;
+        width: 24px;
+        height: 1px;
+        background: #00D4FF;
+    }
+    
+    .pf-hero-name {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(2.6rem, 6vw, 4rem);
+        font-weight: 700;
+        color: #FFFFFF;
+        line-height: 1.05;
+        margin-bottom: 0.5rem;
+    }
+    
+    .pf-hero-title {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+        font-weight: 400;
+        color: #8B9CB6;
+        margin-bottom: 1.5rem;
+    }
+    
+    .pf-hero-summary {
+        font-size: 0.95rem;
+        color: #C9D1D9;
+        line-height: 1.75;
+        max-width: 580px;
+        margin-bottom: 2rem;
+    }
+    
+    .pf-pipeline {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        margin: 2.5rem 0 2rem;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+    }
+    
+    .pf-pipe-node {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+        flex-shrink: 0;
+    }
+    
+    .pf-pipe-circle {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 2px solid #00D4FF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        background: #161B22;
+        position: relative;
+        animation: pulse-node 2.5s infinite;
+    }
+    
+    .pf-pipe-circle:nth-child(1) {
+        animation-delay: 0s;
+    }
+    
+    .pf-pipe-node:nth-child(3) .pf-pipe-circle {
+        animation-delay: 0.4s;
+    }
+    
+    .pf-pipe-node:nth-child(5) .pf-pipe-circle {
+        animation-delay: 0.8s;
+    }
+    
+    .pf-pipe-node:nth-child(7) .pf-pipe-circle {
+        animation-delay: 1.2s;
+    }
+    
+    .pf-pipe-node:nth-child(9) .pf-pipe-circle {
+        animation-delay: 1.6s;
+    }
+    
+    @keyframes pulse-node {
+        0%,
+        100% {
+            box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.4);
+            border-color: #00D4FF;
+        }
+        50% {
+            box-shadow: 0 0 0 6px rgba(0, 212, 255, 0);
+            border-color: #00D4FF;
+        }
+    }
+    
+    .pf-pipe-label {
+        font-size: 0.65rem;
+        color: #8B9CB6;
+        text-align: center;
+        font-family: 'Space Grotesk', sans-serif;
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+    }
+    
+    .pf-pipe-connector {
+        flex: 1;
+        height: 2px;
+        background: linear-gradient(90deg, #00D4FF44, #00D4FF, #00D4FF44);
+        min-width: 24px;
+        max-width: 60px;
+        margin-bottom: 1.4rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .pf-pipe-connector::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -40px;
+        width: 40px;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, #00D4FF, transparent);
+        animation: flow 2s linear infinite;
+    }
+    
+    @keyframes flow {
+        to {
+            left: calc(100% + 40px);
+        }
+    }
+    
+    .pf-cta-row {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+    }
+    
+    .pf-btn-primary {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 0.65rem 1.4rem;
+        border-radius: 4px;
+        background: #00D4FF;
+        color: #0D1117;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: opacity 0.2s;
+    }
+    
+    .pf-btn-primary:hover {
+        opacity: 0.85;
+    }
+    
+    .pf-btn-secondary {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 0.65rem 1.4rem;
+        border-radius: 4px;
+        background: transparent;
+        color: #00D4FF;
+        border: 1px solid #00D4FF44;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        transition: border-color 0.2s, background 0.2s;
+    }
+    
+    .pf-btn-secondary:hover {
+        border-color: #00D4FF;
+        background: #00D4FF11;
+    }
+    
+    .pf-contact-chips {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    
+    .pf-chip {
+        font-size: 0.78rem;
+        color: #8B9CB6;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+    
+    .pf-chip i {
+        color: #00D4FF;
+        font-size: 14px;
+    }
+    
+    .pf-section {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2.5rem 2rem;
+        border-top: 1px solid #21262D;
+    }
+    
+    .pf-section-label {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.72rem;
+        color: #00D4FF;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+    }
+    
+    .pf-section-label::before {
+        content: '';
+        display: inline-block;
+        width: 16px;
+        height: 1px;
+        background: #00D4FF;
+    }
+    
+    .pf-skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    
+    .pf-skill-card {
+        background: #161B22;
+        border: 1px solid #21262D;
+        border-radius: 8px;
+        padding: 1rem 1.1rem;
+        transition: border-color 0.2s;
+    }
+    
+    .pf-skill-card:hover {
+        border-color: #00D4FF44;
+    }
+    
+    .pf-skill-card-title {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.8rem;
+        color: #8B9CB6;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-bottom: 0.7rem;
+    }
+    
+    .pf-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+    
+    .pf-tag {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.72rem;
+        color: #C9D1D9;
+        background: #21262D;
+        border: 1px solid #30363D;
+        border-radius: 3px;
+        padding: 0.18rem 0.55rem;
+        letter-spacing: 0.02em;
+    }
+    
+    .pf-exp-item {
+        display: grid;
+        grid-template-columns: 3px 1fr;
+        gap: 0 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .pf-exp-line {
+        background: #00D4FF33;
+        border-radius: 2px;
+        position: relative;
+    }
+    
+    .pf-exp-line::before {
+        content: '';
+        position: absolute;
+        top: 6px;
+        left: -4px;
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #00D4FF;
+        border: 2px solid #0D1117;
+    }
+    
+    .pf-exp-content {
+        padding-bottom: 1.5rem;
+    }
+    
+    .pf-exp-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+        margin-bottom: 0.2rem;
+    }
+    
+    .pf-exp-role {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #FFFFFF;
+    }
+    
+    .pf-exp-company {
+        font-size: 0.85rem;
+        color: #00D4FF;
+        font-weight: 500;
+    }
+    
+    .pf-exp-dates {
+        font-size: 0.75rem;
+        color: #8B9CB6;
+        font-style: italic;
+    }
+    
+    .pf-exp-bullets {
+        list-style: none;
+        margin-top: 0.6rem;
+    }
+    
+    .pf-exp-bullets li {
+        font-size: 0.85rem;
+        color: #8B9CB6;
+        padding: 0.2rem 0 0.2rem 1rem;
+        position: relative;
+        line-height: 1.6;
+    }
+    
+    .pf-exp-bullets li::before {
+        content: '▸';
+        position: absolute;
+        left: 0;
+        color: #00D4FF;
+        font-size: 0.7rem;
+        top: 0.3rem;
+    }
+    
+    .pf-projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+    }
+    
+    .pf-project-card {
+        background: #161B22;
+        border: 1px solid #21262D;
+        border-radius: 8px;
+        padding: 1.2rem;
+        transition: border-color 0.2s, transform 0.2s;
+        cursor: default;
+    }
+    
+    .pf-project-card:hover {
+        border-color: #00D4FF44;
+        transform: translateY(-2px);
+    }
+    
+    .pf-project-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: #00D4FF15;
+        border: 1px solid #00D4FF33;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.8rem;
+        font-size: 16px;
+        color: #00D4FF;
+    }
+    
+    .pf-project-name {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: #FFFFFF;
+        margin-bottom: 0.4rem;
+        line-height: 1.3;
+    }
+    
+    .pf-project-desc {
+        font-size: 0.8rem;
+        color: #8B9CB6;
+        line-height: 1.6;
+        margin-bottom: 0.8rem;
+    }
+    
+    .pf-stat-row {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+    }
+    
+    .pf-stat {
+        background: #161B22;
+        border: 1px solid #21262D;
+        border-radius: 8px;
+        padding: 0.9rem 1.2rem;
+        flex: 1;
+        min-width: 120px;
+        text-align: center;
+    }
+    
+    .pf-stat-num {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #00D4FF;
+        line-height: 1;
+    }
+    
+    .pf-stat-label {
+        font-size: 0.72rem;
+        color: #8B9CB6;
+        margin-top: 0.3rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+    
+    .pf-contact-section {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2.5rem 2rem 3rem;
+        border-top: 1px solid #21262D;
+    }
+    
+    .pf-contact-card {
+        background: #161B22;
+        border: 1px solid #00D4FF22;
+        border-radius: 10px;
+        padding: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+    
+    .pf-contact-heading {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #FFFFFF;
+        margin-bottom: 0.4rem;
+    }
+    
+    .pf-contact-sub {
+        font-size: 0.85rem;
+        color: #8B9CB6;
+    }
+    
+    .pf-footer {
+        text-align: center;
+        padding: 1.5rem;
+        font-size: 0.72rem;
+        color: #3D4451;
+        border-top: 1px solid #161B22;
+        letter-spacing: 0.04em;
+    }
 </style>
-</head>
-<body>
 
-<!-- NAV -->
-<nav>
-  <a class="nav-logo" href="#">Rajesh G R</a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <a class="nav-cta" href="mailto:rajeshyadavgr067@gmail.com">Hire Me</a>
-</nav>
+<div class="pf-root">
 
-<!-- HERO -->
-<div class="hero">
-  <div>
-    <div class="hero-badge">Available for opportunities</div>
-    <h1 class="hero-name">Data Engineer<br>& Pipeline Builder</h1>
-    <p class="hero-title">Rajesh G R · Bangalore, India</p>
-    <p class="hero-bio">
-      I build scalable ETL/ELT pipelines and automated data workflows that turn raw, messy data into structured, analytics-ready assets. 2+ years specializing in the automotive domain — with Python, SQL, AWS, and a growing focus on LLM-powered data extraction.
-    </p>
-    <div class="hero-actions">
-      <a class="btn-primary" href="mailto:rajeshyadavgr067@gmail.com">Get in touch ↗</a>
-      <a class="btn-outline" href="#projects">View Projects</a>
-    </div>
-  </div>
-  <div class="hero-avatar">RG</div>
+    <nav class="pf-nav">
+        <div class="pf-logo">RGR</div>
+        <div class="pf-nav-links">
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#experience">Experience</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section class="pf-hero" id="about">
+        <div class="pf-eyebrow">Open to opportunities</div>
+        <h1 class="pf-hero-name">Rajesh G R</h1>
+        <p class="pf-hero-title">Data Engineer · Automotive Domain · AWS · NLP</p>
+        <p class="pf-hero-summary">
+            I build data pipelines that move fast and scale quietly. With 2+ years engineering ETL/ELT systems in the automotive industry, I specialize in turning raw, messy data into structured, analytics-ready assets — automating what used to take days down to
+            minutes.
+        </p>
+
+        <div class="pf-pipeline" aria-label="Data pipeline illustration">
+            <div class="pf-pipe-node">
+                <div class="pf-pipe-circle" aria-hidden="true"><i class="ti ti-database" style="color:#00D4FF;font-size:18px"></i></div>
+                <span class="pf-pipe-label">Source</span>
+            </div>
+            <div class="pf-pipe-connector"></div>
+            <div class="pf-pipe-node">
+                <div class="pf-pipe-circle"><i class="ti ti-code" style="color:#00D4FF;font-size:18px"></i></div>
+                <span class="pf-pipe-label">Python</span>
+            </div>
+            <div class="pf-pipe-connector"></div>
+            <div class="pf-pipe-node">
+                <div class="pf-pipe-circle"><i class="ti ti-arrows-transfer-up" style="color:#00D4FF;font-size:18px"></i></div>
+                <span class="pf-pipe-label">ETL</span>
+            </div>
+            <div class="pf-pipe-connector"></div>
+            <div class="pf-pipe-node">
+                <div class="pf-pipe-circle"><i class="ti ti-cloud" style="color:#00D4FF;font-size:18px"></i></div>
+                <span class="pf-pipe-label">AWS S3</span>
+            </div>
+            <div class="pf-pipe-connector"></div>
+            <div class="pf-pipe-node">
+                <div class="pf-pipe-circle"><i class="ti ti-chart-bar" style="color:#00D4FF;font-size:18px"></i></div>
+                <span class="pf-pipe-label">Insights</span>
+            </div>
+        </div>
+
+        <div class="pf-cta-row">
+            <a class="pf-btn-primary" href="mailto:rajeshyadavgr067@gmail.com">Hire Me</a>
+            <button class="pf-btn-secondary" onclick="sendPrompt('Download Rajesh GR resume')">Download Resume ↗</button>
+        </div>
+        <div class="pf-contact-chips" style="margin-top:1.2rem">
+            <span class="pf-chip"><i class="ti ti-map-pin" aria-hidden="true"></i>Bangalore, India</span>
+            <span class="pf-chip"><i class="ti ti-phone" aria-hidden="true"></i>+91 73493 35481</span>
+            <span class="pf-chip"><i class="ti ti-mail" aria-hidden="true"></i>rajeshyadavgr067@gmail.com</span>
+        </div>
+    </section>
+
+    <section class="pf-section" id="skills">
+        <div class="pf-section-label">Technical Skills</div>
+
+        <div class="pf-skills-grid">
+            <div class="pf-skill-card">
+                <div class="pf-skill-card-title"><i class="ti ti-terminal-2" aria-hidden="true" style="font-size:13px;margin-right:5px"></i>Languages</div>
+                <div class="pf-tags">
+                    <span class="pf-tag">Python</span>
+                    <span class="pf-tag">SQL</span>
+                </div>
+            </div>
+            <div class="pf-skill-card">
+                <div class="pf-skill-card-title"><i class="ti ti-git-branch" aria-hidden="true" style="font-size:13px;margin-right:5px"></i>Data Engineering</div>
+                <div class="pf-tags">
+                    <span class="pf-tag">ETL / ELT</span>
+                    <span class="pf-tag">Airflow</span>
+                    <span class="pf-tag">API Integration</span>
+                    <span class="pf-tag">Web Scraping</span>
+                </div>
+            </div>
+            <div class="pf-skill-card">
+                <div class="pf-skill-card-title"><i class="ti ti-database" aria-hidden="true" style="font-size:13px;margin-right:5px"></i>Databases</div>
+                <div class="pf-tags">
+                    <span class="pf-tag">PostgreSQL</span>
+                    <span class="pf-tag">MySQL</span>
+                    <span class="pf-tag">Neo4j</span>
+                </div>
+            </div>
+            <div class="pf-skill-card">
+                <div class="pf-skill-card-title"><i class="ti ti-cloud" aria-hidden="true" style="font-size:13px;margin-right:5px"></i>Cloud — AWS</div>
+                <div class="pf-tags">
+                    <span class="pf-tag">S3</span>
+                    <span class="pf-tag">EC2</span>
+                    <span class="pf-tag">Lambda</span>
+                </div>
+            </div>
+            <div class="pf-skill-card">
+                <div class="pf-skill-card-title"><i class="ti ti-brain" aria-hidden="true" style="font-size:13px;margin-right:5px"></i>AI / NLP</div>
+                <div class="pf-tags">
+                    <span class="pf-tag">LLM Fine-tuning</span>
+                    <span class="pf-tag">LoRA</span>
+                    <span class="pf-tag">Hugging Face</span>
+                    <span class="pf-tag">Transformers</span>
+                    <span class="pf-tag">Whisper API</span>
+                </div>
+            </div>
+            <div class="pf-skill-card">
+                <div class="pf-skill-card-title"><i class="ti ti-chart-dots" aria-hidden="true" style="font-size:13px;margin-right:5px"></i>Viz & Tools</div>
+                <div class="pf-tags">
+                    <span class="pf-tag">Power BI</span>
+                    <span class="pf-tag">Pandas</span>
+                    <span class="pf-tag">NumPy</span>
+                    <span class="pf-tag">Flask</span>
+                    <span class="pf-tag">Selenium</span>
+                    <span class="pf-tag">GitHub</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pf-section" id="experience">
+        <div class="pf-section-label">Experience</div>
+
+        <div class="pf-stat-row">
+            <div class="pf-stat">
+                <div class="pf-stat-num">2+</div>
+                <div class="pf-stat-label">Years</div>
+            </div>
+            <div class="pf-stat">
+                <div class="pf-stat-num">90%</div>
+                <div class="pf-stat-label">Manual effort cut</div>
+            </div>
+            <div class="pf-stat">
+                <div class="pf-stat-num">2L+</div>
+                <div class="pf-stat-label">Records processed</div>
+            </div>
+            <div class="pf-stat">
+                <div class="pf-stat-num">3L+</div>
+                <div class="pf-stat-label">JDs extracted</div>
+            </div>
+        </div>
+
+        <div class="pf-exp-item">
+            <div class="pf-exp-line"></div>
+            <div class="pf-exp-content">
+                <div class="pf-exp-meta">
+                    <div>
+                        <div class="pf-exp-role">Data Engineer</div>
+                        <div class="pf-exp-company">CreamCollar</div>
+                    </div>
+                    <div class="pf-exp-dates">Dec 2023 – Present</div>
+                </div>
+                <ul class="pf-exp-bullets">
+                    <li>Collected and standardized 2 Lakh + automotive job and product records for downstream analytics pipelines.</li>
+                    <li>Designed and implemented ETL/ELT pipelines using Python, PostgreSQL, and AWS S3 with structured data modeling.</li>
+                    <li>Automated product & course extraction with Apache Airflow, reducing manual effort by ~90%.</li>
+                    <li>Processed 1 Lakh + job descriptions via Python scripts, extracting skills, tasks, tools, and compliance data.</li>
+                    <li>Built Power BI dashboards to visualize skill demand trends for data-driven curriculum decisions.</li>
+                    <li>Experimented with LLM fine-tuning (LoRA, Hugging Face) for domain-specific skill extraction.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="pf-section" id="projects">
+        <div class="pf-section-label">Projects</div>
+        <div class="pf-projects-grid">
+
+            <div class="pf-project-card">
+                <div class="pf-project-icon"><i class="ti ti-topology-star" aria-hidden="true"></i></div>
+                <div class="pf-project-name">Curriculum Design Automation</div>
+                <div class="pf-project-desc">Neo4j knowledge graph mapping job roles, skills & technologies. Automated curriculum generation for ADAS AI/ML and Battery System engineers.</div>
+                <div class="pf-tags">
+                    <span class="pf-tag">Neo4j</span>
+                    <span class="pf-tag">Cypher</span>
+                    <span class="pf-tag">Python</span>
+                </div>
+            </div>
+
+            <div class="pf-project-card">
+                <div class="pf-project-icon"><i class="ti ti-robot" aria-hidden="true"></i></div>
+                <div class="pf-project-name">LLM Skill Extraction System</div>
+                <div class="pf-project-desc">Fine-tuned TinyLlama, Phi, and Llama-3 with LoRA/Unsloth for structured skill, tool, and compliance tag extraction from JDs. Models hosted on Hugging Face.</div>
+                <div class="pf-tags">
+                    <span class="pf-tag">LoRA</span>
+                    <span class="pf-tag">Unsloth</span>
+                    <span class="pf-tag">Hugging Face</span>
+                    <span class="pf-tag">Llama-3</span>
+                </div>
+            </div>
+
+            <div class="pf-project-card">
+                <div class="pf-project-icon"><i class="ti ti-brand-youtube" aria-hidden="true"></i></div>
+                <div class="pf-project-name">YouTube Metadata & Transcript Pipeline</div>
+                <div class="pf-project-desc">End-to-end pipeline using YouTube Data API + Whisper for metadata extraction and transcription. Scheduled ETL reduced manual collection by 60%.</div>
+                <div class="pf-tags">
+                    <span class="pf-tag">Airflow</span>
+                    <span class="pf-tag">Whisper</span>
+                    <span class="pf-tag">PostgreSQL</span>
+                    <span class="pf-tag">Selenium</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="pf-contact-section" id="contact">
+        <div class="pf-section-label">Contact</div>
+        <div class="pf-contact-card">
+            <div>
+                <div class="pf-contact-heading">Let's build something together.</div>
+                <div class="pf-contact-sub">Open to Data Engineer roles in Bangalore or remote.</div>
+            </div>
+            <div style="display:flex;gap:0.7rem;flex-wrap:wrap">
+                <a class="pf-btn-primary" href="mailto:rajeshyadavgr067@gmail.com">Send Email</a>
+                <a class="pf-btn-secondary" href="tel:+917349335481">Call Me</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="pf-footer">
+        © 2026 Rajesh G R · Data Engineer · Bangalore, India
+    </footer>
+
 </div>
-
-<!-- STATS -->
-<div class="stats-bar">
-  <div class="stat-item">
-    <div class="stat-num">2+</div>
-    <div class="stat-label">Years of experience</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">90%</div>
-    <div class="stat-label">Manual effort reduced</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">10k+</div>
-    <div class="stat-label">Records standardized</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">5k+</div>
-    <div class="stat-label">Job descriptions processed</div>
-  </div>
-</div>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="container">
-    <div class="section-eyebrow">About me</div>
-    <div class="section-title">Who I am</div>
-    <div class="about-grid">
-      <div class="about-text">
-        <p>
-          I'm a Data Engineer based in Bangalore with a background in Computer Science and 2+ years of hands-on experience building data infrastructure for the automotive industry at CreamCollar.
-        </p>
-        <p>
-          My work spans the full data lifecycle — from ingesting raw records via web scraping and APIs, to transforming and modeling them with Python and SQL, to orchestrating workflows with Apache Airflow and storing everything on AWS.
-        </p>
-        <p>
-          Beyond pipelines, I've explored the frontier of NLP — fine-tuning compact LLMs like TinyLlama and Llama-3 using LoRA for structured skill extraction, and building knowledge graphs with Neo4j to power automated curriculum generation.
-        </p>
-      </div>
-      <div class="about-details">
-        <div class="detail-row">
-          <div class="detail-icon">📍</div>
-          <div>
-            <div class="detail-label">Location</div>
-            <div class="detail-value">Bangalore, India</div>
-          </div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-icon">🎓</div>
-          <div>
-            <div class="detail-label">Education</div>
-            <div class="detail-value">B.E. Computer Science, 2022</div>
-          </div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-icon">🏢</div>
-          <div>
-            <div class="detail-label">Currently at</div>
-            <div class="detail-value">CreamCollar (Dec 2023 – Present)</div>
-          </div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-icon">🌐</div>
-          <div>
-            <div class="detail-label">Domain</div>
-            <div class="detail-value">Automotive Industry</div>
-          </div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-icon">📧</div>
-          <div>
-            <div class="detail-label">Email</div>
-            <div class="detail-value">rajeshyadavgr067@gmail.com</div>
-          </div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-icon">📞</div>
-          <div>
-            <div class="detail-label">Phone</div>
-            <div class="detail-value">+91 73493 35481</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills">
-  <div class="container">
-    <div class="section-eyebrow">Technical skills</div>
-    <div class="section-title">What I work with</div>
-    <div class="skills-grid">
-
-      <div class="skill-card">
-        <div class="skill-card-header">
-          <div class="skill-icon">⌨️</div>
-          <div class="skill-category">Languages</div>
-        </div>
-        <div class="skill-tags">
-          <span class="skill-tag">Python</span>
-          <span class="skill-tag">SQL</span>
-        </div>
-      </div>
-
-      <div class="skill-card">
-        <div class="skill-card-header">
-          <div class="skill-icon">🔁</div>
-          <div class="skill-category">Data Engineering</div>
-        </div>
-        <div class="skill-tags">
-          <span class="skill-tag">ETL / ELT</span>
-          <span class="skill-tag">Apache Airflow</span>
-          <span class="skill-tag">Data Modeling</span>
-          <span class="skill-tag">API Integration</span>
-          <span class="skill-tag">Web Scraping</span>
-        </div>
-      </div>
-
-      <div class="skill-card">
-        <div class="skill-card-header">
-          <div class="skill-icon">🗄️</div>
-          <div class="skill-category">Databases</div>
-        </div>
-        <div class="skill-tags">
-          <span class="skill-tag">PostgreSQL</span>
-          <span class="skill-tag">MySQL</span>
-          <span class="skill-tag">Neo4j</span>
-        </div>
-      </div>
-
-      <div class="skill-card">
-        <div class="skill-card-header">
-          <div class="skill-icon">☁️</div>
-          <div class="skill-category">Cloud — AWS</div>
-        </div>
-        <div class="skill-tags">
-          <span class="skill-tag">S3</span>
-          <span class="skill-tag">EC2</span>
-          <span class="skill-tag">Lambda</span>
-        </div>
-      </div>
-
-      <div class="skill-card">
-        <div class="skill-card-header">
-          <div class="skill-icon">🤖</div>
-          <div class="skill-category">AI / NLP</div>
-        </div>
-        <div class="skill-tags">
-          <span class="skill-tag">LLM Fine-tuning</span>
-          <span class="skill-tag">LoRA</span>
-          <span class="skill-tag">Hugging Face</span>
-          <span class="skill-tag">Transformers</span>
-          <span class="skill-tag">Whisper API</span>
-        </div>
-      </div>
-
-      <div class="skill-card">
-        <div class="skill-card-header">
-          <div class="skill-icon">🛠️</div>
-          <div class="skill-category">Tools & Frameworks</div>
-        </div>
-        <div class="skill-tags">
-          <span class="skill-tag">Power BI</span>
-          <span class="skill-tag">Pandas</span>
-          <span class="skill-tag">NumPy</span>
-          <span class="skill-tag">Flask</span>
-          <span class="skill-tag">Selenium</span>
-          <span class="skill-tag">BeautifulSoup</span>
-          <span class="skill-tag">GitHub</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="container">
-    <div class="section-eyebrow">Work experience</div>
-    <div class="section-title">Where I've worked</div>
-    <div class="exp-timeline">
-      <div class="exp-item">
-        <div class="exp-meta">
-          <div class="exp-dates">Dec 2023 – Present</div>
-          <div class="exp-company">CreamCollar</div>
-          <div class="exp-location">Bangalore, India</div>
-        </div>
-        <div class="exp-content">
-          <div class="exp-role">Data Engineer</div>
-          <ul class="exp-bullets">
-            <li>Collected and standardized 10,000+ automotive job and product records, improving dataset quality for downstream analytics.</li>
-            <li>Designed and implemented scalable ETL/ELT pipelines using Python, PostgreSQL, and AWS S3 with structured data modeling techniques.</li>
-            <li>Automated product and course data extraction pipelines with Apache Airflow, reducing manual effort by ~90% and enabling continuous scheduled workflows.</li>
-            <li>Developed Python scripts to process 5,000+ job descriptions, extracting structured skills, tools, and compliance data at scale.</li>
-            <li>Conducted skill gap analysis and competency mapping to support curriculum development for automotive industry roles.</li>
-            <li>Built Power BI dashboards to visualize skill demand trends for data-driven stakeholder decision-making.</li>
-            <li>Researched and fine-tuned compact LLMs (LoRA, Hugging Face) for domain-specific structured skill extraction from unstructured text.</li>
-          </ul>
-          <div class="exp-tags">
-            <span class="exp-tag">Python</span>
-            <span class="exp-tag">PostgreSQL</span>
-            <span class="exp-tag">AWS S3</span>
-            <span class="exp-tag">Apache Airflow</span>
-            <span class="exp-tag">Power BI</span>
-            <span class="exp-tag">LLM Fine-tuning</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="container">
-    <div class="section-eyebrow">Projects</div>
-    <div class="section-title">Things I've built</div>
-    <div class="projects-grid">
-
-      <div class="project-card">
-        <div class="project-num">01</div>
-        <div class="project-name">Curriculum Design Automation System</div>
-        <div class="project-desc">
-          Built a TTC (Tools, Technologies, Compliance) knowledge graph using Neo4j to model relationships between automotive job roles, skills, and technologies. Automated curriculum generation for roles like ADAS AI/ML Engineer and Battery System Engineer. Implemented skill gap analysis comparing industry requirements with student competencies.
-        </div>
-        <div class="project-tags">
-          <span class="project-tag">Neo4j</span>
-          <span class="project-tag">Cypher</span>
-          <span class="project-tag">Python</span>
-          <span class="project-tag">Skill Gap Analysis</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-num">02</div>
-        <div class="project-name">LLM Skill Extraction System</div>
-        <div class="project-desc">
-          Designed end-to-end Python pipelines for text preprocessing, chunking, and structured extraction from large collections of job descriptions. Fine-tuned compact LLMs — TinyLlama, Phi, and Llama-3 — using LoRA and Unsloth for domain-specific extraction. Models hosted on Hugging Face for downstream usage.
-        </div>
-        <div class="project-tags">
-          <span class="project-tag">LoRA</span>
-          <span class="project-tag">Unsloth</span>
-          <span class="project-tag">Llama-3</span>
-          <span class="project-tag">Hugging Face</span>
-          <span class="project-tag">NLP</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-num">03</div>
-        <div class="project-name">YouTube Metadata & Transcript Pipeline</div>
-        <div class="project-desc">
-          Built automated data collection pipelines using Python, Selenium, BeautifulSoup, and the YouTube Data API. Integrated Whisper API for audio transcription, storing structured outputs in PostgreSQL. Scheduled ETL workflows reduced manual data collection by 60%. Transcripts were segmented and tagged for curriculum mapping.
-        </div>
-        <div class="project-tags">
-          <span class="project-tag">Airflow</span>
-          <span class="project-tag">Whisper API</span>
-          <span class="project-tag">PostgreSQL</span>
-          <span class="project-tag">Selenium</span>
-          <span class="project-tag">YouTube API</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="container">
-    <div class="section-eyebrow">Contact</div>
-    <div class="section-title">Let's connect</div>
-    <div class="contact-card">
-      <div>
-        <div class="contact-heading">Open to new roles &<br>collaborations.</div>
-        <div class="contact-sub">Data Engineer · Bangalore · Remote-friendly</div>
-      </div>
-      <div class="contact-links">
-        <a class="contact-link" href="mailto:rajeshyadavgr067@gmail.com">
-          <span class="contact-link-icon">✉</span> rajeshyadavgr067@gmail.com
-        </a>
-        <a class="contact-link" href="tel:+917349335481">
-          <span class="contact-link-icon">📞</span> +91 73493 35481
-        </a>
-        <a class="contact-link" href="https://linkedin.com/in/rajeshgr" target="_blank" rel="noopener">
-          <span class="contact-link-icon">🔗</span> linkedin.com/in/rajeshgr
-        </a>
-        <a class="contact-link" href="https://github.com/rajeshgr" target="_blank" rel="noopener">
-          <span class="contact-link-icon">⌨</span> github.com/rajeshgr
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  © 2026 Rajesh G R · Data Engineer · Bangalore, India
-</footer>
-
-</body>
-</html>
