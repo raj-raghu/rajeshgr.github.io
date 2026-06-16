@@ -1,0 +1,691 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .pf-root {
+    font-family: 'Inter', sans-serif;
+    background: #0D1117;
+    color: #E6EDF3;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .pf-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 2rem;
+    border-bottom: 1px solid #21262D;
+    position: sticky;
+    top: 0;
+    background: rgba(13,17,23,0.95);
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+
+  .pf-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #00D4FF;
+    letter-spacing: 0.04em;
+  }
+
+  .pf-nav-links { display: flex; gap: 1.5rem; }
+  .pf-nav-links a {
+    font-size: 0.82rem;
+    color: #8B9CB6;
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .pf-nav-links a:hover { color: #00D4FF; }
+
+  .pf-hero {
+    padding: 4rem 2rem 3rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .pf-eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.78rem;
+    color: #00D4FF;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .pf-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: #00D4FF;
+  }
+
+  .pf-hero-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.6rem, 6vw, 4rem);
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.05;
+    margin-bottom: 0.5rem;
+  }
+
+  .pf-hero-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-weight: 400;
+    color: #8B9CB6;
+    margin-bottom: 1.5rem;
+  }
+
+  .pf-hero-summary {
+    font-size: 0.95rem;
+    color: #C9D1D9;
+    line-height: 1.75;
+    max-width: 580px;
+    margin-bottom: 2rem;
+  }
+
+  .pf-pipeline {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 2.5rem 0 2rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+
+  .pf-pipe-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+  }
+
+  .pf-pipe-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid #00D4FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    background: #161B22;
+    position: relative;
+    animation: pulse-node 2.5s infinite;
+  }
+
+  .pf-pipe-circle:nth-child(1) { animation-delay: 0s; }
+
+  .pf-pipe-node:nth-child(3) .pf-pipe-circle { animation-delay: 0.4s; }
+  .pf-pipe-node:nth-child(5) .pf-pipe-circle { animation-delay: 0.8s; }
+  .pf-pipe-node:nth-child(7) .pf-pipe-circle { animation-delay: 1.2s; }
+  .pf-pipe-node:nth-child(9) .pf-pipe-circle { animation-delay: 1.6s; }
+
+  @keyframes pulse-node {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0,212,255,0.4); border-color: #00D4FF; }
+    50% { box-shadow: 0 0 0 6px rgba(0,212,255,0); border-color: #00D4FF; }
+  }
+
+  .pf-pipe-label {
+    font-size: 0.65rem;
+    color: #8B9CB6;
+    text-align: center;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .pf-pipe-connector {
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, #00D4FF44, #00D4FF, #00D4FF44);
+    min-width: 24px;
+    max-width: 60px;
+    margin-bottom: 1.4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pf-pipe-connector::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -40px;
+    width: 40px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, #00D4FF, transparent);
+    animation: flow 2s linear infinite;
+  }
+
+  @keyframes flow {
+    to { left: calc(100% + 40px); }
+  }
+
+  .pf-cta-row { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 1rem; }
+
+  .pf-btn-primary {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.65rem 1.4rem;
+    border-radius: 4px;
+    background: #00D4FF;
+    color: #0D1117;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.2s;
+  }
+  .pf-btn-primary:hover { opacity: 0.85; }
+
+  .pf-btn-secondary {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.65rem 1.4rem;
+    border-radius: 4px;
+    background: transparent;
+    color: #00D4FF;
+    border: 1px solid #00D4FF44;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .pf-btn-secondary:hover { border-color: #00D4FF; background: #00D4FF11; }
+
+  .pf-contact-chips { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .pf-chip {
+    font-size: 0.78rem;
+    color: #8B9CB6;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .pf-chip i { color: #00D4FF; font-size: 14px; }
+
+  .pf-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
+    border-top: 1px solid #21262D;
+  }
+
+  .pf-section-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    color: #00D4FF;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .pf-section-label::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 1px;
+    background: #00D4FF;
+  }
+
+  .pf-skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .pf-skill-card {
+    background: #161B22;
+    border: 1px solid #21262D;
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+    transition: border-color 0.2s;
+  }
+  .pf-skill-card:hover { border-color: #00D4FF44; }
+
+  .pf-skill-card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.8rem;
+    color: #8B9CB6;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.7rem;
+  }
+
+  .pf-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .pf-tag {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    color: #C9D1D9;
+    background: #21262D;
+    border: 1px solid #30363D;
+    border-radius: 3px;
+    padding: 0.18rem 0.55rem;
+    letter-spacing: 0.02em;
+  }
+
+  .pf-exp-item {
+    display: grid;
+    grid-template-columns: 3px 1fr;
+    gap: 0 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .pf-exp-line {
+    background: #00D4FF33;
+    border-radius: 2px;
+    position: relative;
+  }
+  .pf-exp-line::before {
+    content: '';
+    position: absolute;
+    top: 6px; left: -4px;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: #00D4FF;
+    border: 2px solid #0D1117;
+  }
+
+  .pf-exp-content { padding-bottom: 1.5rem; }
+
+  .pf-exp-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .pf-exp-role {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #FFFFFF;
+  }
+
+  .pf-exp-company {
+    font-size: 0.85rem;
+    color: #00D4FF;
+    font-weight: 500;
+  }
+
+  .pf-exp-dates {
+    font-size: 0.75rem;
+    color: #8B9CB6;
+    font-style: italic;
+  }
+
+  .pf-exp-bullets { list-style: none; margin-top: 0.6rem; }
+  .pf-exp-bullets li {
+    font-size: 0.85rem;
+    color: #8B9CB6;
+    padding: 0.2rem 0 0.2rem 1rem;
+    position: relative;
+    line-height: 1.6;
+  }
+  .pf-exp-bullets li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #00D4FF;
+    font-size: 0.7rem;
+    top: 0.3rem;
+  }
+
+  .pf-projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+
+  .pf-project-card {
+    background: #161B22;
+    border: 1px solid #21262D;
+    border-radius: 8px;
+    padding: 1.2rem;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: default;
+  }
+  .pf-project-card:hover { border-color: #00D4FF44; transform: translateY(-2px); }
+
+  .pf-project-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: #00D4FF15;
+    border: 1px solid #00D4FF33;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 0.8rem;
+    font-size: 16px; color: #00D4FF;
+  }
+
+  .pf-project-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin-bottom: 0.4rem;
+    line-height: 1.3;
+  }
+
+  .pf-project-desc {
+    font-size: 0.8rem;
+    color: #8B9CB6;
+    line-height: 1.6;
+    margin-bottom: 0.8rem;
+  }
+
+  .pf-stat-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .pf-stat {
+    background: #161B22;
+    border: 1px solid #21262D;
+    border-radius: 8px;
+    padding: 0.9rem 1.2rem;
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+  }
+
+  .pf-stat-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #00D4FF;
+    line-height: 1;
+  }
+
+  .pf-stat-label {
+    font-size: 0.72rem;
+    color: #8B9CB6;
+    margin-top: 0.3rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .pf-contact-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 3rem;
+    border-top: 1px solid #21262D;
+  }
+
+  .pf-contact-card {
+    background: #161B22;
+    border: 1px solid #00D4FF22;
+    border-radius: 10px;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .pf-contact-heading {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 0.4rem;
+  }
+
+  .pf-contact-sub { font-size: 0.85rem; color: #8B9CB6; }
+
+  .pf-footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.72rem;
+    color: #3D4451;
+    border-top: 1px solid #161B22;
+    letter-spacing: 0.04em;
+  }
+</style>
+
+<div class="pf-root">
+
+  <nav class="pf-nav">
+    <div class="pf-logo">RGR</div>
+    <div class="pf-nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <section class="pf-hero" id="about">
+    <div class="pf-eyebrow">Open to opportunities</div>
+    <h1 class="pf-hero-name">Rajesh G R</h1>
+    <p class="pf-hero-title">Data Engineer · Automotive Domain · AWS · NLP</p>
+    <p class="pf-hero-summary">
+      I build data pipelines that move fast and scale quietly. With 2+ years engineering ETL/ELT systems in the automotive industry, I specialize in turning raw, messy data into structured, analytics-ready assets — automating what used to take days down to minutes.
+    </p>
+
+    <div class="pf-pipeline" aria-label="Data pipeline illustration">
+      <div class="pf-pipe-node">
+        <div class="pf-pipe-circle" aria-hidden="true"><i class="ti ti-database" style="color:#00D4FF;font-size:18px"></i></div>
+        <span class="pf-pipe-label">Source</span>
+      </div>
+      <div class="pf-pipe-connector"></div>
+      <div class="pf-pipe-node">
+        <div class="pf-pipe-circle"><i class="ti ti-code" style="color:#00D4FF;font-size:18px"></i></div>
+        <span class="pf-pipe-label">Python</span>
+      </div>
+      <div class="pf-pipe-connector"></div>
+      <div class="pf-pipe-node">
+        <div class="pf-pipe-circle"><i class="ti ti-arrows-transfer-up" style="color:#00D4FF;font-size:18px"></i></div>
+        <span class="pf-pipe-label">ETL</span>
+      </div>
+      <div class="pf-pipe-connector"></div>
+      <div class="pf-pipe-node">
+        <div class="pf-pipe-circle"><i class="ti ti-cloud" style="color:#00D4FF;font-size:18px"></i></div>
+        <span class="pf-pipe-label">AWS S3</span>
+      </div>
+      <div class="pf-pipe-connector"></div>
+      <div class="pf-pipe-node">
+        <div class="pf-pipe-circle"><i class="ti ti-chart-bar" style="color:#00D4FF;font-size:18px"></i></div>
+        <span class="pf-pipe-label">Insights</span>
+      </div>
+    </div>
+
+    <div class="pf-cta-row">
+      <a class="pf-btn-primary" href="mailto:rajeshyadavgr067@gmail.com">Hire Me</a>
+      <button class="pf-btn-secondary" onclick="sendPrompt('Download Rajesh GR resume')">Download Resume ↗</button>
+    </div>
+    <div class="pf-contact-chips" style="margin-top:1.2rem">
+      <span class="pf-chip"><i class="ti ti-map-pin" aria-hidden="true"></i>Bangalore, India</span>
+      <span class="pf-chip"><i class="ti ti-phone" aria-hidden="true"></i>+91 73493 35481</span>
+      <span class="pf-chip"><i class="ti ti-mail" aria-hidden="true"></i>rajeshyadavgr067@gmail.com</span>
+    </div>
+  </section>
+
+  <section class="pf-section" id="skills">
+    <div class="pf-section-label">Technical Skills</div>
+
+    <div class="pf-skills-grid">
+      <div class="pf-skill-card">
+        <div class="pf-skill-card-title"><i class="ti ti-terminal-2" aria-hidden="true" style="font-size:13px;margin-right:5px"></i>Languages</div>
+        <div class="pf-tags">
+          <span class="pf-tag">Python</span>
+          <span class="pf-tag">SQL</span>
+        </div>
+      </div>
+      <div class="pf-skill-card">
+        <div class="pf-skill-card-title"><i class="ti ti-git-branch" aria-hidden="true" style="font-size:13px;margin-right:5px"></i>Data Engineering</div>
+        <div class="pf-tags">
+          <span class="pf-tag">ETL / ELT</span>
+          <span class="pf-tag">Airflow</span>
+          <span class="pf-tag">API Integration</span>
+          <span class="pf-tag">Web Scraping</span>
+        </div>
+      </div>
+      <div class="pf-skill-card">
+        <div class="pf-skill-card-title"><i class="ti ti-database" aria-hidden="true" style="font-size:13px;margin-right:5px"></i>Databases</div>
+        <div class="pf-tags">
+          <span class="pf-tag">PostgreSQL</span>
+          <span class="pf-tag">MySQL</span>
+          <span class="pf-tag">Neo4j</span>
+        </div>
+      </div>
+      <div class="pf-skill-card">
+        <div class="pf-skill-card-title"><i class="ti ti-cloud" aria-hidden="true" style="font-size:13px;margin-right:5px"></i>Cloud — AWS</div>
+        <div class="pf-tags">
+          <span class="pf-tag">S3</span>
+          <span class="pf-tag">EC2</span>
+          <span class="pf-tag">Lambda</span>
+        </div>
+      </div>
+      <div class="pf-skill-card">
+        <div class="pf-skill-card-title"><i class="ti ti-brain" aria-hidden="true" style="font-size:13px;margin-right:5px"></i>AI / NLP</div>
+        <div class="pf-tags">
+          <span class="pf-tag">LLM Fine-tuning</span>
+          <span class="pf-tag">LoRA</span>
+          <span class="pf-tag">Hugging Face</span>
+          <span class="pf-tag">Transformers</span>
+          <span class="pf-tag">Whisper API</span>
+        </div>
+      </div>
+      <div class="pf-skill-card">
+        <div class="pf-skill-card-title"><i class="ti ti-chart-dots" aria-hidden="true" style="font-size:13px;margin-right:5px"></i>Viz & Tools</div>
+        <div class="pf-tags">
+          <span class="pf-tag">Power BI</span>
+          <span class="pf-tag">Pandas</span>
+          <span class="pf-tag">NumPy</span>
+          <span class="pf-tag">Flask</span>
+          <span class="pf-tag">Selenium</span>
+          <span class="pf-tag">GitHub</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pf-section" id="experience">
+    <div class="pf-section-label">Experience</div>
+
+    <div class="pf-stat-row">
+      <div class="pf-stat">
+        <div class="pf-stat-num">2+</div>
+        <div class="pf-stat-label">Years</div>
+      </div>
+      <div class="pf-stat">
+        <div class="pf-stat-num">90%</div>
+        <div class="pf-stat-label">Manual effort cut</div>
+      </div>
+      <div class="pf-stat">
+        <div class="pf-stat-num">10k+</div>
+        <div class="pf-stat-label">Records processed</div>
+      </div>
+      <div class="pf-stat">
+        <div class="pf-stat-num">5k+</div>
+        <div class="pf-stat-label">JDs extracted</div>
+      </div>
+    </div>
+
+    <div class="pf-exp-item">
+      <div class="pf-exp-line"></div>
+      <div class="pf-exp-content">
+        <div class="pf-exp-meta">
+          <div>
+            <div class="pf-exp-role">Data Engineer</div>
+            <div class="pf-exp-company">CreamCollar</div>
+          </div>
+          <div class="pf-exp-dates">Dec 2023 – Present</div>
+        </div>
+        <ul class="pf-exp-bullets">
+          <li>Collected and standardized 10,000+ automotive job and product records for downstream analytics pipelines.</li>
+          <li>Designed and implemented ETL/ELT pipelines using Python, PostgreSQL, and AWS S3 with structured data modeling.</li>
+          <li>Automated product & course extraction with Apache Airflow, reducing manual effort by ~90%.</li>
+          <li>Processed 5,000+ job descriptions via Python scripts, extracting skills, tools, and compliance data.</li>
+          <li>Built Power BI dashboards to visualize skill demand trends for data-driven curriculum decisions.</li>
+          <li>Experimented with LLM fine-tuning (LoRA, Hugging Face) for domain-specific skill extraction.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="pf-section" id="projects">
+    <div class="pf-section-label">Projects</div>
+    <div class="pf-projects-grid">
+
+      <div class="pf-project-card">
+        <div class="pf-project-icon"><i class="ti ti-topology-star" aria-hidden="true"></i></div>
+        <div class="pf-project-name">Curriculum Design Automation</div>
+        <div class="pf-project-desc">Neo4j knowledge graph mapping job roles, skills & technologies. Automated curriculum generation for ADAS AI/ML and Battery System engineers.</div>
+        <div class="pf-tags">
+          <span class="pf-tag">Neo4j</span>
+          <span class="pf-tag">Cypher</span>
+          <span class="pf-tag">Python</span>
+        </div>
+      </div>
+
+      <div class="pf-project-card">
+        <div class="pf-project-icon"><i class="ti ti-robot" aria-hidden="true"></i></div>
+        <div class="pf-project-name">LLM Skill Extraction System</div>
+        <div class="pf-project-desc">Fine-tuned TinyLlama, Phi, and Llama-3 with LoRA/Unsloth for structured skill, tool, and compliance tag extraction from JDs. Models hosted on Hugging Face.</div>
+        <div class="pf-tags">
+          <span class="pf-tag">LoRA</span>
+          <span class="pf-tag">Unsloth</span>
+          <span class="pf-tag">Hugging Face</span>
+          <span class="pf-tag">Llama-3</span>
+        </div>
+      </div>
+
+      <div class="pf-project-card">
+        <div class="pf-project-icon"><i class="ti ti-brand-youtube" aria-hidden="true"></i></div>
+        <div class="pf-project-name">YouTube Metadata & Transcript Pipeline</div>
+        <div class="pf-project-desc">End-to-end pipeline using YouTube Data API + Whisper for metadata extraction and transcription. Scheduled ETL reduced manual collection by 60%.</div>
+        <div class="pf-tags">
+          <span class="pf-tag">Airflow</span>
+          <span class="pf-tag">Whisper</span>
+          <span class="pf-tag">PostgreSQL</span>
+          <span class="pf-tag">Selenium</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="pf-contact-section" id="contact">
+    <div class="pf-section-label">Contact</div>
+    <div class="pf-contact-card">
+      <div>
+        <div class="pf-contact-heading">Let's build something together.</div>
+        <div class="pf-contact-sub">Open to Data Engineer roles in Bangalore or remote.</div>
+      </div>
+      <div style="display:flex;gap:0.7rem;flex-wrap:wrap">
+        <a class="pf-btn-primary" href="mailto:rajeshyadavgr067@gmail.com">Send Email</a>
+        <a class="pf-btn-secondary" href="tel:+917349335481">Call Me</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="pf-footer">
+    © 2026 Rajesh G R · Data Engineer · Bangalore, India
+  </footer>
+
+</div>
